@@ -1,37 +1,50 @@
-var DoWhen   = function(fn, condition, max, pause) {
-    "use strict";
-    var _this   = this;
+/* class DoWhen
+ *
+ * Description:
+ *     Tests c(ondition) in an interval of p(ause) until m(ax) loops or c(ondition) is true
+ *     if c(condition) is true - f(un)n(ction) is called and the interval cleared
+ *
+ * Licence:
+ *     copyleft by Stefan Friedl (k) all rights reversed
+ *         Attribution-NonCommercial-ShareAlike 4.0 International
+ *         http://creativecommons.org/licenses/by-nc-sa/4.0/
+ */
 
-    this.fn     = this.fn    || fn    || function(){};
-    this.max    = this.max   || max   || 5;
-    this.pause  = this.pause || pause || 500;
-  
-    this.counter    = 0;
-    this.testFn     = this.testFn || new Function(
-        'return '+condition
-    );
+/**
+ * Tests c(ondition) in an Interval of p(ause) until m(ax) loops or c(ondition) is true
+ *  if c(condition) is true - f(un)n(ction) is called
+ * 
+ * @constructor
+ * @param {function}    fn callback function
+ * @param {string}      c  condition to check
+ * @param {int}         m  max loops to check c
+ * @param {int}         p  interval pause
+ */
+var DoWhen   = function(fn, c, m, p) {
+    "use strict";
+    if( !fn ){ log('no callback Function given'); return 0; }
+    if( !c  ){ log('no condition given'); return 0; }
+
+    var t       = this;
+    t.fn        = t.fn  || fn   || function(){};
+    t.m         = t.m   || m    || 5;
+    t.p         = t.p   || p    || 500;
+    t.n         = 0;
+    t.tFn       = t.tFn || new Function('return '+c);
     
-    this.testFnIntervalFn   = function(){
-        log('Inteval startet... counter at ', _this.counter);
-        if( _this.testFn() ){
-            log('condition is true!');
-            _this.fn();
+    t.iFn   = function(){
+        if( t.tFn() ){
+            // do the magic
+            t.fn();
         }else{
-            this.counter++;
+            t.n++;
         }
-        if( _this.testFn() || _this.counter >= _this.max ){
-            window.clearInterval( _this.testFnInterval );
+        if( t.n >= t.m || t.tFn() ){
+            window.clearInterval( t.i );
         }
     };
     
-    this.testFnInterval  = window.setInterval( function(){
-        _this.testFnIntervalFn();
-    }, pause);
+    t.i  = window.setInterval( function(){
+        t.iFn();
+    }, p);
 };
-
-var testestFn   = function() {
-    log('testestFn called!!!');
-};
-
-new DoWhen(testestFn, 'jQuery(".wpxp-pageLayoutTitleArea").length === 1 ');
-//new DoWhen(testestFn, '1 === 1');
