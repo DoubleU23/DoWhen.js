@@ -10,8 +10,8 @@ var testFn   = function() {
     },
     instance = new DoWhen( testestFn        // callback
                          , 'window.x === 5' // condition
-                         , 15               // max
-                         , 500              // pause
+                         , 15               // max   = 5   (optional)
+                         , 500              // pause = 500 (optional)
     );
 ```
 
