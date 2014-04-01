@@ -22,8 +22,8 @@
  */
 var DoWhen   = function(fn, c, m, p) {
     "use strict";
-    if( !fn ){ log('no callback Function given'); return 0; }
-    if( !c  ){ log('no condition given'); return 0; }
+    if( !fn ){ console.error('no callback Function given'); return 0; }
+    if( !c  ){ console.error('no condition given'); return 0; }
 
     var t       = this;
     t.fn        = t.fn  || fn   || function(){};
