@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+
+		<h1>Test if an Animation has already passed an position/state</h1>
+		<h3>open the console to view the output</h3>
+		
+	<div class="wrapper" style="width: 1100px; position: relative; height: 200px; border: 1px solid red;">
+		<div class="block" style="position: absolute; top: 50px; left:100;background-color: blue; width:100px; height: 100px;"></div>
+	</div>
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="../src/DoWhen.min.js"></script>
+	<script type="text/javascript">
+	// closure
+	(function(window, $, undefined) {
+		// document ready
+		$(function() {
+			console.log('start animation');
+
+			var $block 			= $('.block')
+											.animate({left: 1000}, 3000)
+			,	isOver40 		= function() {
+					console.log( 'The Animation is over 30% completed.' );
+				}
+			,	isOver80 		= function() {
+					console.log( 'The Animation is over 80% completed.' );
+				}
+			,	altCondition 	= function() {
+					return parseInt(_B.css('left')) >= 800;
+				};
+
+			window._B 	= $block;
+			window._FN 	= altCondition
+
+
+
+			new DoWhen(isOver40, "parseInt(_B.css('left')) >= 400", 100, 100);
+			new DoWhen(isOver80, "window._FN()", 10, 500);
+
+		});
+	})(window, window.jQuery )
+
+	</script>
+</body>
+</html>

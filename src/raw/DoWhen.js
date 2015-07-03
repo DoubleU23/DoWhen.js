@@ -1,5 +1,8 @@
 var DoWhen   = function(fn, condition, max, pause) {
     "use strict";
+    if( !fn ){ console.error('no callback Function given'); return 0; }
+    if( !c  ){ console.error('no condition given'); return 0; }
+    
     var _this   = this;
 
     this.fn     = this.fn    || fn    || function(){};
@@ -12,14 +15,16 @@ var DoWhen   = function(fn, condition, max, pause) {
     );
     
     this.testFnIntervalFn   = function(){
-        log('Inteval startet... counter at ', _this.counter);
-        if( _this.testFn() ){
-            log('condition is true!');
+        console.log('new interval loop... counter at ', _this.counter);
+        var result   = _this.testFn();
+        if( result ){
+            console.log('condition is TRUE!');
             _this.fn();
         }else{
+            console.log('condition is FALSE!');
             this.counter++;
         }
-        if( _this.counter >= _this.max || _this.testFn() ){
+        if( _this.counter >= _this.max || result ){
             window.clearInterval( _this.testFnInterval );
         }
     };
@@ -28,10 +33,3 @@ var DoWhen   = function(fn, condition, max, pause) {
         _this.testFnIntervalFn();
     }, pause);
 };
-
-var testestFn   = function() {
-    log('testestFn called!!!');
-};
-
-new DoWhen(testestFn, 'jQuery(".wpxp-pageLayoutTitleArea").length === 1', 51, 1000);
-//new DoWhen(testestFn, '1 === 1');

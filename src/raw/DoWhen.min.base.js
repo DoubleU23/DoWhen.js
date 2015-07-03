@@ -33,13 +33,13 @@ var DoWhen   = function(fn, c, m, p) {
     t.tFn       = t.tFn || new Function('return '+c);
     
     t.iFn   = function(){
-        if( t.tFn() ){
-            // do the magic
+        var r   = t.tFn();
+        if( r ){
             t.fn();
         }else{
             t.n++;
         }
-        if( t.n >= t.m || t.tFn() ){
+        if( t.n >= t.m || r ){
             window.clearInterval( t.i );
         }
     };
